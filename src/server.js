@@ -21,6 +21,8 @@ const limiter = rateLimit({
     statusCode: 429,
     message: { message: 'Your request is rich. Try again' }
 })
+
+// Middleware
 app.use(limiter)
 app.use(express.json());
 // app.use(express.urlencoded({ extended: true }));
