@@ -12,9 +12,9 @@ const uploadImage = async (req, res, next) => {
         const image = req.file?.path;
         const fileType = req?.body?.fileType;
 
-        // upload profile image
+        // upload profile image and Store in Shikder-Zone folder
         const imageRes = await cloudinary.uploader.upload(image, {
-            folder: 'neo-grocery',
+            folder: 'shikder-zone',
         })
 
         const { url, format, width, height, bytes } = imageRes;
