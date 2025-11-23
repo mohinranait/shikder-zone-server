@@ -7,6 +7,10 @@ const productSchema = new Schema(
       ref: "User",
       required: true,
     },
+    afffiliate: { 
+      company: { type: String,},  
+      afffiliatePrice: { type: Number, default: 0,},  
+    },
     brand: { type: [String], },
     category: {  type: [String], },
     details: {  type: String, },
