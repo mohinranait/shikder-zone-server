@@ -9,9 +9,10 @@ const createError = require("http-errors");
 */
 const createNewSection = async (req, res, next) => {
     try {
-         const authUser = req.user;
-         // Check authenticated user
-         if(!authUser?.id) throw createError(401, "Unauthorized access");
+
+        const authUser = req?.user
+        if(!authUser) throw createError(401, "Unauthorized access")
+        if(authUser?.role !== 'Admin' && authUser?.role !== "Manager") throw createError(403, "Forbidden access")
 
         const body = req.body;
         const section = (await Section.create({...body})).populate('products');

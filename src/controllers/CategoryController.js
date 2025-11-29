@@ -87,7 +87,7 @@ const getCategoryById = async (req, res, next) => {
 const createNewCategory = async (req, res, next) => {
     try {
         const authUser = req.user;
-        if(authUser.role !== 'Admin' ) throw createError(401, "Unauthorized access");
+        if(authUser.role !== 'Admin' && authUser?.role !== "Manager" ) throw createError(401, "Unauthorized access");
         const { name, slug, parent, catBanner, catThumbnail, catIcon, status } = req.body;
         const genSlug = generateSlug( slug || name)
         const newCategory = new Category({ name, slug:genSlug, parent, catBanner, catThumbnail, catIcon, status });
@@ -131,7 +131,7 @@ const updateCategoryById = async (req, res, next) => {
 const deleteCategoryById = async (req, res, next) => {
     try {
         const authUser = req.user;
-        if(authUser.role !== 'Admin' ) throw createError(401, "Unauthorized access");
+        if(authUser.role !== 'Admin' && authUser?.role !== "Manager" ) throw createError(401, "Unauthorized access");
         let categoryId = req.params?.id;
         const category = await Category.findByIdAndDelete(categoryId);
         if(!category) throw createError(500, "Category not deleted");

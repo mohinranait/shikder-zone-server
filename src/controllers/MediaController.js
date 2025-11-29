@@ -66,7 +66,39 @@ const getAllMedias = async (req, res,next) => {
     }
 }
 
+
+/**
+ * Delete media by ID
+*/
+const deleteMediaById = async (req, res, next) => {
+    try {
+        const authUser = req?.user
+        if(!authUser) throw createError(401, "Unauthorized access")
+        if(authUser?.role !== 'Admin' && authUser?.role !== "Manager") throw createError(403, "Forbidden access")
+        
+        const id = req.params?.mediaId;
+        if (!id) throw createError(404, "Media is required")
+       
+        const media = await Media.findByIdAndDelete(id);
+        if (!media) throw createError(404, "Media not found")
+
+        return successResponse(res, {
+            statusCode:200,
+            message:"Media deleted successfully",
+            payload:{
+                media
+            }
+        })
+
+       
+    } catch (error) {
+        console.error('Error deleting media:', error);
+       next(error)
+    }
+}
+
 module.exports = {
     uploadImage,
-    getAllMedias
+    getAllMedias,
+    deleteMediaById,
 }
