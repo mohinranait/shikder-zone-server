@@ -10,6 +10,7 @@ const appIntegrationSchema = new Schema(
       smtpEmail: { type: String },
       senderName: { type: String },
       isActive: { type: Boolean, default: false },
+      lastUpdated: { type: Date,  },
     },
 
     cloudinary: {
@@ -17,6 +18,7 @@ const appIntegrationSchema = new Schema(
       apiKey: { type: String },
       apiSecret: { type: String },
       isActive: { type: Boolean, default: false },
+      lastUpdated: { type: Date,  },
     },
 
     facebookPixel: {
@@ -24,6 +26,7 @@ const appIntegrationSchema = new Schema(
       accessToken: { type: String },
       enableTracking: { type: Boolean, default: true },
       isActive: { type: Boolean, default: false },
+      lastUpdated: { type: Date,  },
     },
 
   },

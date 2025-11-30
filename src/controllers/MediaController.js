@@ -3,6 +3,8 @@ const createError = require('http-errors');
 const { successResponse } = require('../utils/responseHandler');
 const cloudinary = require('../config/cloudinary');
 const Media = require('../models/MediaModel');
+const configureCloudinary = require('../config/cloudinary');
+const { AppIntegration } = require('../models/AppServiceModel');
 
 
 // Update profile by ID
@@ -11,6 +13,23 @@ const uploadImage = async (req, res, next) => {
 
         const image = req.file?.path;
         const fileType = req?.body?.fileType;
+
+        // Get cloudinary config from DB
+         let integrations = await AppIntegration.findOne({});
+        if (!integrations) {
+            integrations = await AppIntegration.create({});
+        }
+
+        const cloudinary  = configureCloudinary({
+            cloudName: integrations?.cloudinary?.cloudName,
+            apiKey: integrations?.cloudinary?.apiKey,
+            apiSecret: integrations?.cloudinary?.apiSecret,
+        }) 
+
+        // Checked if cloudinary integration is active
+        if(integrations?.cloudinary?.isActive !== true){
+            throw createError(503, "Cloudinary integration is not active")
+        }
 
         // upload profile image and Store in Shikder-Zone folder
         const imageRes = await cloudinary.uploader.upload(image, {

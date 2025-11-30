@@ -3,7 +3,7 @@ const { successResponse } = require("../utils/responseHandler");
 
 
 // Get Application Integrations
-const getAppService =  async (req, res) => {
+const getAppService =  async (req, res,next) => {
   try {
     let integrations = await AppIntegration.findOne({});
     if (!integrations) {
@@ -21,13 +21,14 @@ const getAppService =  async (req, res) => {
   } catch (err) {
     console.error("GET INTEGRATIONS ERROR:", err);
     res.status(500).json({ error: "Failed to fetch integrations" });
+    next(err)
   }
 };
 
 // Setup Email Configuration
 const emailConfiguration = async (req, res, next) => {
   try {
-    const { provider, smtpPassword, smtpEmail, senderName,isActive } = req.body;
+    const { provider, smtpPassword, smtpEmail, senderName,isActive,lastUpdated } = req.body;
 
     await AppIntegration.findOneAndUpdate(
       {},
@@ -38,6 +39,7 @@ const emailConfiguration = async (req, res, next) => {
           smtpEmail,
           senderName,
           isActive,
+          lastUpdated
         },
       },
       { upsert: true, new: true }
@@ -55,10 +57,10 @@ const emailConfiguration = async (req, res, next) => {
 };
 
 // Setup Facebook Pixel
-const facebookPixelSetup = async (req, res) => {
+const facebookPixelSetup = async (req, res,next) => {
   try {
     
-   const { pixelId, accessToken, enableTracking,isActive } = req.body;
+   const { pixelId, accessToken, enableTracking,isActive,lastUpdated } = req.body;
 
     await AppIntegration.findOneAndUpdate(
       {},
@@ -68,6 +70,7 @@ const facebookPixelSetup = async (req, res) => {
           accessToken,
           enableTracking,
           isActive,
+          lastUpdated
         },
       },
       { upsert: true, new: true }
@@ -89,7 +92,7 @@ const facebookPixelSetup = async (req, res) => {
 // Setup Cloudinary Configuration
 const cloudinaryConfiguration =  async (req, res,next) => {
   try {
-    const { cloudName, apiKey, apiSecret,isActive } = req.body;
+    const { cloudName, apiKey, apiSecret,isActive ,lastUpdated} = req.body;
 
     await AppIntegration.findOneAndUpdate(
       {},
@@ -98,7 +101,8 @@ const cloudinaryConfiguration =  async (req, res,next) => {
           cloudName,
           apiKey,
           apiSecret,
-          isActive
+          isActive,
+          lastUpdated
         },
       },
       { upsert: true, new: true }
