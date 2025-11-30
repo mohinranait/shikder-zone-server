@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const { AppIntegration } = require('../models/AppServiceModel');
 
 
 /**
@@ -36,8 +37,18 @@ const generateOTP = () => {
 };
 
 
+const getAppServiceForServer =  async (req, res,next) => {
+  let integrations = await AppIntegration.findOne({});
+  if (!integrations) {
+    integrations = await AppIntegration.create({});
+  }
+  return integrations;
+};
+
+
 module.exports = {
     generateSlug,
     generatePasswordHash,
     generateOTP,
+    getAppServiceForServer
 }
