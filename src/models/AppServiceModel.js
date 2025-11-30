@@ -5,32 +5,26 @@ import mongoose, { Schema } from "mongoose";
 const appIntegrationSchema = new Schema(
   {
     email: {
-      provider: { type: String },
-      apiKey: { type: String },
-      senderEmail: { type: String },
+      provider: { type: String, enum: ["sendgrid", "smtp"], default: "smtp" },
+      smtpPassword: { type: String },
+      smtpEmail: { type: String },
       senderName: { type: String },
-      isVerified: { type: Boolean, default: false },
+      isActive: { type: Boolean, default: false },
     },
 
     cloudinary: {
       cloudName: { type: String },
       apiKey: { type: String },
       apiSecret: { type: String },
+      isActive: { type: Boolean, default: false },
     },
 
     facebookPixel: {
       pixelId: { type: String },
       accessToken: { type: String },
       enableTracking: { type: Boolean, default: true },
+      isActive: { type: Boolean, default: false },
     },
-
-    webhook: [
-      {
-        eventType: { type: String },
-        endpointUrl: { type: String },
-        isActive: { type: Boolean, default: true },
-      },
-    ],
 
   },
   { timestamps: true }
