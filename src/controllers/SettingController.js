@@ -1,8 +1,9 @@
 const StoreSetting = require("../models/StoreSettingModel")
-
+const { successResponse } = require("../utils/responseHandler")
+const createError = require('http-errors');
 const getSetting = async (req, res, next) => {
     try {
-       
+        
         let settings = await StoreSetting.findOne({})
         if(!settings){
             settings = await StoreSetting.create({})
@@ -22,6 +23,8 @@ const getSetting = async (req, res, next) => {
 
 const updateSetting = async (req, res , next) => {
     try {
+        const authUser = req.user;
+        if(authUser.role !== 'Admin' && authUser?.role !== "Manager" ) throw createError(401, "Access forbidden");
 
         const body = req.body;
         const settings = await StoreSetting.findOneAndUpdate(

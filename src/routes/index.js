@@ -11,6 +11,7 @@ const uploadImageRouter = require("./mediaRoute");
 const orderRouter = require("./orderRoute");
 const productRoute = require("./productRoute");
 const sectionRoute = require("./sectionRoute");
+const settingRoute = require("./settingRoute");
 const shoppingCartRoute = require("./shoppingCartRoute");
 const userRoute = require("./userRoute");
 
@@ -30,5 +31,6 @@ module.exports =
     commentRoute,
     dealRoute,
     sectionRoute,
-    appService
+    appService,
+    settingRoute
 }

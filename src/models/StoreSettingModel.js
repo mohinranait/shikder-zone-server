@@ -6,12 +6,10 @@ const storeSettingsSchema = new Schema(
     // Basic Store Information
     storeName: {
       type: String,
-      required: true,
       trim: true,
     },
     storeEmail: {
       type: String,
-      required: true,
       trim: true,
       lowercase: true,
     },
@@ -27,7 +25,7 @@ const storeSettingsSchema = new Schema(
     // Logo & Branding
     logo: {
       url: String,
-      publicId: String, // For Cloudinary
+      publicId: String, 
     },
     favicon: {
       url: String,
@@ -56,22 +54,6 @@ const storeSettingsSchema = new Schema(
       pinterest: String,
     },
 
-    // Store Address
-    address: {
-      street: String,
-      city: String,
-      state: String,
-      country: String,
-      zipCode: String,
-    },
-
-    // Store Policies
-    policies: {
-      privacyPolicy: String,
-      termsConditions: String,
-      returnPolicy: String,
-      shippingPolicy: String,
-    },
 
     // Payment Settings
     currency: {
@@ -82,11 +64,6 @@ const storeSettingsSchema = new Schema(
     timezone: {
       type: String,
       default: "UTC",
-    },
-
-    isActive: {
-      type: Boolean,
-      default: true,
     },
   },
   {
